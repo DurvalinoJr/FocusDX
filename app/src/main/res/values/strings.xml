@@ -16,4 +16,8 @@
     <string name="menu_focus">Focus</string>
     <string name="menu_sounds">Sounds</string>
     <string name="menu_exit">Sair</string>
+    <string name="stringName">Nome</string>
+    <string name="stringEmail">E-mail</string>
+    <string name="stringPassword">Senha</string>
+    <string name="stringRegiter">Cadastrar</string>
 </resources>
