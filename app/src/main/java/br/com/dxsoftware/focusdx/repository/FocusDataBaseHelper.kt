@@ -34,5 +34,4 @@ class FocusDataBaseHelper (context: Context) :SQLiteOpenHelper(context, DATABASE
         db.execSQL(createTableUser)
     }
 
-
 }

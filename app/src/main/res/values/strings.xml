@@ -20,4 +20,7 @@
     <string name="stringEmail">E-mail</string>
     <string name="stringPassword">Senha</string>
     <string name="stringRegiter">Cadastrar</string>
+    <string name="stringFill_All_Fields">Preencher todos os campos</string>
+    <string name="stringSomethingWrong">Algo inesperado aconteceu</string>
+    <string name="stringEmailAlreadyRegistered">Email já cadastrado</string>
 </resources>
