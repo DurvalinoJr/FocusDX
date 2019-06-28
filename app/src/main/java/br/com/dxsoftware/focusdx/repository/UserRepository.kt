@@ -55,9 +55,9 @@ class UserRepository private constructor(context: Context){
         return ret
     }
 
-    fun get(email: String, password: String){
+    fun get(email: String, password: String) : UserEntity? {
 
-        var userEntity: UserEntity? = null // TODO: Finalizar a implementação deste método
+        var userEntity: UserEntity? = null
 
         try {
             val cursor: Cursor
@@ -74,16 +74,20 @@ class UserRepository private constructor(context: Context){
 
             cursor = db.query(DataBaseConstants.USER.TABLE_NAME, projection, selection, selectionArgs, null, null, null)
 
-            if (cursor.count > 0)
+            if (cursor.count > 0){
+                cursor.moveToFirst()
 
+                val userId = cursor.getInt(cursor.getColumnIndex(DataBaseConstants.USER.COLUMNS.ID))
+                val name = cursor.getString(cursor.getColumnIndex(DataBaseConstants.USER.COLUMNS.NAME))
+                val email = cursor.getString(cursor.getColumnIndex(DataBaseConstants.USER.COLUMNS.EMAIL))
 
+                userEntity = UserEntity(userId, name, email)
+            }
             cursor.close()
 
         } catch (e: Exception){
-            throw e
+            return userEntity
         }
-
+        return userEntity
     }
-
-
 }

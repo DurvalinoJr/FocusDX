@@ -23,4 +23,6 @@
     <string name="stringFill_All_Fields">Preencher todos os campos</string>
     <string name="stringSomethingWrong">Algo inesperado aconteceu</string>
     <string name="stringEmailAlreadyRegistered">Email já cadastrado</string>
+    <string name="stringLogin">Logar</string>
+    <string name="stringUserPasswordIncorrect">Usuário e/ou senha incorreta</string>
 </resources>

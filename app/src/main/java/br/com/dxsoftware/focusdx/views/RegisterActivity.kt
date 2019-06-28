@@ -1,5 +1,6 @@
 package br.com.dxsoftware.focusdx.views
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -43,6 +44,10 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener {
             val password = editPassword.text.toString()
 
             mUserBusiness.insert(name, email, password)
+
+            startActivity(Intent(this, MainActivity::class.java))
+            finish()
+
         } catch (e: ValidationException) {
             Toast.makeText(this, e.message, Toast.LENGTH_LONG).show()
         } catch (e: Exception) {

@@ -6,7 +6,6 @@ import br.com.dxsoftware.focusdx.constants.FocusConstants
 import br.com.dxsoftware.focusdx.repository.UserRepository
 import br.com.dxsoftware.focusdx.util.SecurityPreferences
 import br.com.dxsoftware.focusdx.util.ValidationException
-import java.lang.Exception
 
 class UserBusiness (val context: Context){
 
@@ -28,6 +27,21 @@ class UserBusiness (val context: Context){
             mSecurityPreferences.storeString(FocusConstants.KEY.USER_EMAIL, email)
         }catch(e: Exception){
             throw e
+        }
+    }
+
+
+    fun login (email: String, password: String) : Boolean {
+
+        val user = mUserRepository.get(email, password)
+
+        return if (user != null) {
+            mSecurityPreferences.storeString(FocusConstants.KEY.USER_ID, user.id.toString())
+            mSecurityPreferences.storeString(FocusConstants.KEY.USER_NAME, user.name)
+            mSecurityPreferences.storeString(FocusConstants.KEY.USER_EMAIL, user.email)
+            true
+        } else {
+            false
         }
     }
 }
