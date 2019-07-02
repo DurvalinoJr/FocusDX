@@ -1,5 +1,6 @@
 package br.com.dxsoftware.focusdx.views
 
+import android.content.Intent
 import android.os.Bundle
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
@@ -11,10 +12,14 @@ import com.google.android.material.navigation.NavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import android.view.Menu
+import androidx.fragment.app.Fragment
 import br.com.dxsoftware.focusdx.R
+import br.com.dxsoftware.focusdx.constants.FocusConstants
+import br.com.dxsoftware.focusdx.util.SecurityPreferences
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
+    private lateinit var mSecurityPreferences: SecurityPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,6 +44,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         val navView: NavigationView = findViewById(R.id.nav_view)
         navView.setNavigationItemSelectedListener(this)
+
+        mSecurityPreferences = SecurityPreferences(this)
+
+        startDefaultFragment()
     }
 
     override fun onBackPressed() {
@@ -67,20 +76,33 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        // Handle navigation view item clicks here.
-        when (item.itemId) {
-            R.id.nav_focus -> {
-                // Handle the camera action
-            }
-            R.id.nav_sounds -> {
 
-            }
-            R.id.nav_exit -> {
-
-            }
+        var fragment: Fragment = FocusMainFragment.newInstance()
+        when {
+            item.itemId == R.id.nav_focus -> fragment = FocusMainFragment.newInstance()
+            item.itemId == R.id.nav_sounds -> fragment = FocusMainFragment.newInstance()
+            item.itemId == R.id.nav_exit -> handleLogout()
         }
+
+        val fragmentManager = supportFragmentManager
+        fragmentManager.beginTransaction().replace(R.id.frameContent, fragment).commit()
+
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
         drawerLayout.closeDrawer(GravityCompat.START)
         return true
+    }
+
+    private fun startDefaultFragment(){
+        val fragment: Fragment =  FocusMainFragment.newInstance()
+        supportFragmentManager.beginTransaction().replace(R.id.frameContent, fragment).commit()
+    }
+
+    private fun handleLogout(){
+        mSecurityPreferences.removeStoreString(FocusConstants.KEY.USER_ID)
+        mSecurityPreferences.removeStoreString(FocusConstants.KEY.USER_NAME)
+        mSecurityPreferences.removeStoreString(FocusConstants.KEY.USER_EMAIL)
+
+        startActivity(Intent(this, LoginActivity::class.java))
+        finish()
     }
 }
